@@ -14,14 +14,40 @@
 * limitations under the License.
 */
 
-typedef enum{
-  TErrorTypeSuccess=0,
-  TErrorTypeBufferTooSmall=-4,
-  TErrorTypeFail=-1,
-  TErrorTypeSendAsIs=1
-} TErrorType;
+/**
+ * @file objthemis/error.h
+ * @brief Status codes defenitions for Obj-C wrapper for themis
+ */
 
-#define SCERROR(error_code, error_message)				\
-  [NSError errorWithDomain:@"com.CossackLabs.Themis.ErrorDomain"	\
+/**
+ * @defgroup WRAPPERS wrappers 
+ * @brief Themis wrappers for high level languages
+ * @{
+ * @defgroup OBJC Objective C
+ * @brief Themis wrapper fro Obj-C
+ * @{
+ */
+
+/** @brief Status codes */
+typedef NS_ENUM(NSInteger, TSErrorType) {
+    TSErrorTypeSuccess = 0, /**< Success */
+    TSErrorTypeBufferTooSmall = -4, /**< Buffer is too small */
+    TSErrorTypeFail = -1, /**< Fail */
+    TSErrorTypeSendAsIs = 1   /**< Send as is */
+};
+
+
+/** @brief Error generation macro
+* @param [in] error_code error code
+* @param [in] error_message human readable error message
+*/
+
+#define SCERROR_DOMAIN @"com.CossackLabs.Themis.ErrorDomain"
+
+#define SCERROR(error_code, error_message)                \
+  [NSError errorWithDomain:SCERROR_DOMAIN    \
   code:error_code \
-  userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:error_message, @"NSLocalizedDescriptionKey",NULL]]
+  userInfo:@{ NSLocalizedDescriptionKey : error_message}]
+
+/** @} */
+/** @} */

@@ -14,23 +14,47 @@
 * limitations under the License.
 */
 
+/**
+* @file objthemis/skeygen.h
+* @brief key pair generation interface
+*/
+
 #import <Foundation/Foundation.h>
 #import <themis/themis.h>
 
-typedef enum{
-    RSA,
-    EC
-} AsymAlg;
+/**
+* @addtogroup WRAPPERS
+* @{
+* @addtogroup OBJC
+* @{
+*/
 
-@interface SKeyGen : NSObject
 
-{
-  NSMutableData* _priv_key;
-  NSMutableData* _pub_key;
-}
+/** @brief supported asymmetric cryptography algorithms */
+typedef NS_ENUM(NSInteger, TSKeyGenAsymmetricAlgorithm) {
+    TSKeyGenAsymmetricAlgorithmRSA, /**< RSA */
+    TSKeyGenAsymmetricAlgorithmEC /**< Elliptic Curve */
+};
 
-- (id)init: (AsymAlg)alg;
-- (NSData*)getPrivKey;
-- (NSData*)getPubKey;
+
+/** @brief Key Pair generation interface */
+@interface TSKeyGen : NSObject
+
+
+/** @brief private key */
+@property (nonatomic, readonly) NSMutableData * privateKey;
+
+/** @brief public key */
+@property (nonatomic, readonly) NSMutableData * publicKey;
+
+/**
+* @brief initialise key pair generator, generates privateKey and publicKey
+* @param [in] alg algorithm. @see TSKeyGenAsymmetricAlgorithm
+*/
+- (instancetype)initWithAlgorithm:(TSKeyGenAsymmetricAlgorithm)algorithm;
+
 
 @end
+
+/** @} */
+/** @} */

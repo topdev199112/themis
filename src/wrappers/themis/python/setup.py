@@ -25,7 +25,7 @@ install_requires = [
 
 setup(
     name='pythemis',
-    version='0.9',
+    version='0.9.1',
 
     description='',
     long_description=open("README.rst").read(),
@@ -61,5 +61,7 @@ setup(
     entry_points={
     },
 
-    install_requires=install_requires,
+    install_requires=[
+	'enum',
+    ],
 )

@@ -14,22 +14,90 @@
 * limitations under the License.
 */
 
+/**
+* @file objthemis/scell_token.h
+* @brief secure cell token protect mode interface
+*/
+
 #import <Foundation/Foundation.h>
 #import <themis/themis.h>
 #import <objcthemis/scell.h>
 
-struct Encrypted_data{
-  __unsafe_unretained NSData* cipher_text;
-  __unsafe_unretained NSData* token;
-};
+/**
+* @addtogroup WRAPPERS
+* @{
+* @addtogroup OBJC
+* @{
+*/
 
+/** @brief encrypted message by secure cell in token protect mode */
+@interface TSCellTokenEncryptedData : NSObject
 
-@interface SCell_token : SCell
+/**< @breaf cipher text */
+@property (nonatomic, strong) NSMutableData * cipherText;
 
-- (id)initWithKey: (NSData*)key;
-- (struct Encrypted_data)wrap: (NSData*)message error:(NSError**)errorPtr;
-- (NSData*)unwrap: (struct Encrypted_data)message error:(NSError**)errorPtr;
-- (struct Encrypted_data)wrap: (NSData*)message context:(NSData*)contex error:(NSError**)errorPtr;
-- (NSData*)unwrap: (struct Encrypted_data)message context:(NSData*)contex error:(NSError**)errorPtr;
+/**< @breaf token */
+@property (nonatomic, strong) NSMutableData * token;
 
 @end
+
+
+/** @brief Secure Cell Context Token Protect interface
+*
+* This object mode is designed for cases when underlying storage constraints do not allow the size of the data to grow
+* (so @ref TSCellSeal "Secure cell seal" cannot be used), however the user has access to a different storage location
+* (ex. another table in the database) where he can store needed security parameters.
+* The Secure Cell object puts authentication tag and other auxiliary information (aka data token) to a separate buffer,
+* so user can store it elsewhere, while keeping the original encrypted data size.
+* The same token has to be provided along with the correct secret for data to be decrypted successfully.
+* Since the same security parameters are used (just stored in a different location) this object mode has same security
+* level as @ref TSCellSeal "Secure cell seal" but requires slightly more effort from the user.
+* Also, user has the ability to bind the data to its context as before.
+* @image html scell-token_protect.png "Secure Cell Token protect mode"
+*/
+@interface TSCellToken : TSCell
+
+/**
+* @brief Initialize Secure cell object in context token mode
+* @param [in] key master key
+*/
+- (instancetype)initWithKey:(NSData *)key;
+
+/**
+* @brief Wrap message
+* @param [in] message message to wrap
+* @param [in] error pointer to Error on failure
+* @return Wrapped message as NSData object on success or nil on failure
+*/
+- (TSCellTokenEncryptedData *)wrapData:(NSData *)message error:(NSError **)error;
+
+/**
+* @brief Unwrap message
+* @param [in] message message to unwrap
+* @param [in] error pointer to Error on failure
+* @return Unwrapped message as NSData object on success or nil on failure
+*/
+- (NSData *)unwrapData:(TSCellTokenEncryptedData *)message error:(NSError **)error;
+
+/**
+* @brief Wrap message with context
+* @param [in] message message to wrap
+* @param [in] context user context
+* @param [in] error pointer to Error on failure
+* @return Wrapped message as NSData object on success or nil on failure
+*/
+- (TSCellTokenEncryptedData *)wrapData:(NSData *)message context:(NSData *)context error:(NSError **)error;
+
+/**
+* @brief Unwrap message with context
+* @param [in] message message to unwrap
+* @param [in] context user context
+* @param [in] error pointer to Error on failure
+* @return Unwrapped message as NSData object on success or nil on failure
+*/
+- (NSData *)unwrapData:(TSCellTokenEncryptedData *)message context:(NSData *)context error:(NSError **)error;
+
+@end
+
+/** @} */
+/** @} */
