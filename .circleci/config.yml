@@ -40,9 +40,10 @@ jobs:
       - run: make clean && make test CC=gcc-8   WITH_TSAN=1
       - run: make clean && make test CC=gcc-8   WITH_UBSAN=1
       - run: make clean && make test CC=clang-7 WITH_ASAN=1
-      - run: make clean && make test CC=clang-7 WITH_MSAN=1
       - run: make clean && make test CC=clang-7 WITH_TSAN=1
       - run: make clean && make test CC=clang-7 WITH_UBSAN=1
+      # There's also WITH_MSAN check. It is supported only by Clang, but currently it is disabled
+      # as it gives way too much noise due to OpenSSL not being instrumented.
 
   x86_64:
     docker:
