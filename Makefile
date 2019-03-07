@@ -310,6 +310,7 @@ endif
 ifdef WITH_UBSAN
 ifeq (yes,$(call supported,-fsanitize=undefined))
 SANITIZERS += -fsanitize=undefined
+SANITIZERS += -fsanitize-blacklist=src/soter/blacklist-ubsan.txt
 else
 $(error -fsanitize=undefined requested but $(CC) does not seem to support it)
 endif
