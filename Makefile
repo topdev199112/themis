@@ -279,6 +279,59 @@ endif
 # strict checks for docs
 #CFLAGS += -Wdocumentation -Wno-error=documentation
 
+#
+# Enable code sanitizers on demand and if supported by compiler
+#
+
+ifdef WITH_ASAN
+ifeq (yes,$(call supported,-fsanitize=address))
+SANITIZERS += -fsanitize=address
+else
+$(error -fsanitize=address requested but $(CC) does not seem to support it)
+endif
+endif
+
+ifdef WITH_MSAN
+ifeq (yes,$(call supported,-fsanitize=memory))
+SANITIZERS += -fsanitize=memory -fsanitize-memory-track-origins=2
+else
+$(error -fsanitize=memory requested but $(CC) does not seem to support it)
+endif
+endif
+
+ifdef WITH_TSAN
+ifeq (yes,$(call supported,-fsanitize=thread))
+SANITIZERS += -fsanitize=thread
+else
+$(error -fsanitize=thread requested but $(CC) does not seem to support it)
+endif
+endif
+
+ifdef WITH_UBSAN
+ifeq (yes,$(call supported,-fsanitize=undefined))
+SANITIZERS += -fsanitize=undefined
+else
+$(error -fsanitize=undefined requested but $(CC) does not seem to support it)
+endif
+ifeq (yes,$(call supported,-fsanitize=integer))
+SANITIZERS += -fsanitize=integer
+else
+$(warning -fsanitize=integer not supported by $(CC), skipping...)
+endif
+ifeq (yes,$(call supported,-fsanitize=nullability))
+SANITIZERS += -fsanitize=nullability
+else
+$(warning -fsanitize=nullability not supported by $(CC), skipping...)
+endif
+endif
+
+ifdef WITH_FATAL_SANITIZERS
+SANITIZERS += -fno-sanitize-recover=all
+endif
+
+CFLAGS  += $(SANITIZERS)
+LDFLAGS += $(SANITIZERS)
+
 # fixing compatibility between x64 0.9.6 and x64 0.10.0
 # https://github.com/cossacklabs/themis/pull/279
 ifeq ($(NO_SCELL_COMPAT),)
