@@ -325,7 +325,7 @@ $(warning -fsanitize=nullability not supported by $(CC), skipping...)
 endif
 endif
 
-ifdef WITH_FATAL_SANITIZERS
+ifeq (yes,$(WITH_FATAL_SANITIZERS))
 SANITIZERS += -fno-sanitize-recover=all
 endif
 
