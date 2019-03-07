@@ -1,10 +1,10 @@
 # Disable ubsan warnings about integer handling in third-party ed25519 library
-[undefined|integer]
+[integer]
 src:src/soter/ed25519/*
 
 # FIXME: avoid misaligned memory accesses instead of silencing warnings here
 # Disable warnings for `soter_container_hdr_t*` casts
-[undefined|alignment]
+[alignment]
 src:src/soter/boringssl/soter_asym_cipher.c
 src:src/soter/boringssl/soter_asym_ka.c
 src:src/soter/boringssl/soter_ec_key.c
