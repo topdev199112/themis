@@ -1,6 +1,5 @@
 #include "sc.h"
 #include "fe.h"
-#include "ubsan.h"
 /* #include "crypto_int64.h"
 #include "crypto_uint32.h"
 #include "crypto_uint64.h" */
@@ -34,7 +33,7 @@ Output:
   Overwrites s in place.
 */
 
-void sc_reduce(unsigned char *s) NO_UBSAN
+void sc_reduce(unsigned char *s)
 {
   crypto_int64 s0 = 2097151 & load_3(s);
   crypto_int64 s1 = 2097151 & (load_4(s + 2) >> 5);

@@ -1,5 +1,4 @@
 #include "fe.h"
-#include "ubsan.h"
 /* #include "crypto_verify_32.h" */
 
 /*
@@ -10,7 +9,7 @@ Preconditions:
    |f| bounded by 1.1*2^26,1.1*2^25,1.1*2^26,1.1*2^25,etc.
 */
 
-int crypto_verify_32(const unsigned char *x,const unsigned char *y) NO_UBSAN
+int crypto_verify_32(const unsigned char *x,const unsigned char *y)
 {
   unsigned int differentbits = 0;
 #define F(i) differentbits |= x[i] ^ y[i];

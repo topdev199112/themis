@@ -1,5 +1,4 @@
 #include "fe.h"
-#include "ubsan.h"
 
 /*
 Replace (f,g) with (g,g) if b == 1;
@@ -8,7 +7,7 @@ replace (f,g) with (f,g) if b == 0.
 Preconditions: b in {0,1}.
 */
 
-void fe_cmov(fe f,const fe g,unsigned int b) NO_UBSAN
+void fe_cmov(fe f,const fe g,unsigned int b)
 {
   crypto_int32 f0 = f[0];
   crypto_int32 f1 = f[1];
