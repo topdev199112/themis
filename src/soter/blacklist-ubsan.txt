@@ -21,6 +21,6 @@ src:src/soter/soter_container.c
 src:src/themis/secure_keygen.c
 src:src/themis/secure_message_wrapper.c
 src:src/themis/secure_session.c
-src:src/themis/secure_session_message.c:
+src:src/themis/secure_session_message.c
 src:src/themis/secure_session_serialize.c
-src:src/themis/secure_session_utils.c:
+src:src/themis/secure_session_utils.c
