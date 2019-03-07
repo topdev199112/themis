@@ -27,9 +27,10 @@ jobs:
     environment:
       CC: clang-7
       CXX: clang-7
+      CFLAGS: "-DCIRICLE_TEST"
       CLANG_FORMAT: clang-format-7
       CLANG_TIDY: clang-tidy-7
-      WITH_FATAL_SANITIZERS: no
+      WITH_FATAL_SANITIZERS: yes
       WITH_FATAL_WARNINGS: yes
     steps:
       - checkout
