@@ -1,7 +1,8 @@
 #include "ge.h"
+#include "ubsan.h"
 /* #include "crypto_uint32.h" */
 
-static unsigned char equal(signed char b,signed char c)
+static unsigned char equal(signed char b,signed char c) NO_UBSAN
 {
   unsigned char ub = b;
   unsigned char uc = c;
@@ -31,7 +32,7 @@ static ge_precomp base[32][8] = {
 #include "base.h"
 } ;
 
-static void select(ge_precomp *t,int pos,signed char b)
+static void select(ge_precomp *t,int pos,signed char b) NO_UBSAN
 {
   ge_precomp minust;
   unsigned char bnegative = negative(b);
@@ -61,7 +62,7 @@ Preconditions:
   a[31] <= 127
 */
 
-void ge_scalarmult_base(ge_p3 *h,const unsigned char *a)
+void ge_scalarmult_base(ge_p3 *h,const unsigned char *a) NO_UBSAN
 {
   signed char e[64];
   signed char carry;

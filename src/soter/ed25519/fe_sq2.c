@@ -1,4 +1,5 @@
 #include "fe.h"
+#include "ubsan.h"
 /* #include "crypto_int64.h" */
 
 /*
@@ -16,7 +17,7 @@ Postconditions:
 See fe_mul.c for discussion of implementation strategy.
 */
 
-void fe_sq2(fe h,const fe f)
+void fe_sq2(fe h,const fe f) NO_UBSAN
 {
   crypto_int32 f0 = f[0];
   crypto_int32 f1 = f[1];

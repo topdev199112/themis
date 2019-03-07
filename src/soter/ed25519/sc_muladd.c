@@ -1,5 +1,6 @@
 #include "sc.h"
 #include "fe.h"
+#include "ubsan.h"
 /* #include "crypto_int64.h"
 #include "crypto_uint32.h"
 #include "crypto_uint64.h" */
@@ -34,7 +35,7 @@ Output:
   where l = 2^252 + 27742317777372353535851937790883648493.
 */
 
-void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,const unsigned char *c)
+void sc_muladd(unsigned char *s,const unsigned char *a,const unsigned char *b,const unsigned char *c) NO_UBSAN
 {
   crypto_int64 a0 = 2097151 & load_3(a);
   crypto_int64 a1 = 2097151 & (load_4(a + 2) >> 5);
