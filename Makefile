@@ -426,26 +426,37 @@ endif
 get_version:
 	@echo $(VERSION)
 
-THEMIS_DIST_FILENAME = $(VERSION).tar.gz
+DIST_DIR = themis-$(VERSION)
+
+# Documentation
+DIST_FILES += docs
+DIST_FILES += CHANGELOG.md
+DIST_FILES += LICENSE
+DIST_FILES += README.md
+# Themis source code and tests
+DIST_FILES += src
+DIST_FILES += tests
+DIST_FILES += Makefile
+# Supporting files for language wrappers
+DIST_FILES += gothemis
+DIST_FILES += gradle
+DIST_FILES += jni
+DIST_FILES += scripts
+DIST_FILES += tools
+DIST_FILES += build.gradle
+DIST_FILES += Cargo.toml
+DIST_FILES += Cartfile
+DIST_FILES += Cartfile.resolved
+DIST_FILES += CMakeLists.txt
+DIST_FILES += themis.podspec
+DIST_FILES += Themis.xcodeproj
 
 dist:
-	mkdir -p $(VERSION)
-	rsync -avz src $(VERSION)
-	rsync -avz docs $(VERSION)
-	rsync -avz gothemis $(VERSION)
-	rsync -avz gradle $(VERSION)
-	rsync -avz jni $(VERSION)
-	rsync -avz --exclude 'tests/soter/nist-sts/assess' tests $(VERSION)
-	rsync -avz tools $(VERSION)
-	rsync -avz CHANGELOG.md $(VERSION)
-	rsync -avz LICENSE $(VERSION)
-	rsync -avz Makefile $(VERSION)
-	rsync -avz README.md $(VERSION)
-	rsync -avz build.gradle $(VERSION)
-	rsync -avz gradlew $(VERSION)
-	rsync -avz themis.podspec $(VERSION)
-	tar -zcvf $(THEMIS_DIST_FILENAME) $(VERSION)
-	rm -rf $(VERSION)
+	@mkdir -p $(DIST_DIR)
+	@rsync -a $(DIST_FILES) $(DIST_DIR)
+	@tar czf $(DIST_DIR).tar.gz $(DIST_DIR)
+	@rm -rf $(DIST_DIR)
+	@echo $(DIST_DIR).tar.gz
 
 for-audit: $(SOTER_AUD) $(THEMIS_AUD)
 
